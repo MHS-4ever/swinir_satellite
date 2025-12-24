@@ -1,0 +1,80 @@
+{
+  "total_rows": 62848,
+  "unique_locations": 3928,
+  "columns": [
+    "Unnamed: 0",
+    "n",
+    "bounds",
+    "lowres_date",
+    "highres_date",
+    "area",
+    "cloud_cover",
+    "delta",
+    "lon",
+    "lat",
+    "LCCS",
+    "SMOD",
+    "IPCC Class",
+    "LCCS class",
+    "SMOD Class"
+  ],
+  "cloud_coverage": {
+    "min": 0.0,
+    "max": 99.93,
+    "mean": 7.981243158095722,
+    "median": 0.66,
+    "std": 14.222470435038462,
+    "low_cloud_pct": 74.9140784114053,
+    "high_cloud_pct": 2.437627291242362
+  },
+  "geographic": {
+    "lat_range": [
+      -76.72991328173293,
+      80.93836613187699
+    ],
+    "lon_range": [
+      -167.24198397097246,
+      177.87871075563538
+    ],
+    "lat_mean": 21.93651932195292,
+    "lon_mean": 14.119459931187619
+  },
+  "land_cover": {
+    "ipcc_classes": {
+      "Settlement": 27200,
+      "Forest": 11744,
+      "Agriculture": 11200,
+      "Other": 6688,
+      "Grassland": 3280,
+      "Water": 944,
+      "Wetland": 656
+    },
+    "lccs_classes": {
+      "Urban areas": 27200,
+      "Tree cover, broadleaved, evergreen, closed to open (>15%)": 6352,
+      "Cropland, rainfed": 5584,
+      "Grassland": 2752,
+      "Bare areas": 2160,
+      "Shrubland": 2112,
+      "Herbaceous cover": 1776,
+      "Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)": 1376,
+      "Tree cover, broadleaved, deciduous, open (15\u201040%)": 1312,
+      "Cropland, irrigated or post\u2010flooding": 1200
+    },
+    "smod_classes": {
+      "Rural: Very Low Dens": 35312,
+      "Urban: Centre": 9312,
+      "Rural: Low Dens": 5168,
+      "Urban: Suburban": 4240,
+      "Urban: Dense": 3200,
+      "Rural: cluster": 2624,
+      "Urban: Semi-dense": 1568,
+      "Water": 1424
+    }
+  },
+  "acquisitions_per_location": {
+    "min": 16,
+    "max": 16,
+    "mean": 16.0
+  }
+}

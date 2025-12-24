@@ -1,0 +1,49 @@
+{
+  "hr_dataset": {
+    "total_locations": 3929,
+    "file_counts_by_type": {
+      ".tiff": 11787,
+      ".png": 3929
+    },
+    "sample_locations": [
+      "Amnesty POI-1-1-1",
+      "Amnesty POI-1-1-2",
+      "Amnesty POI-1-1-3",
+      "Amnesty POI-1-2-1",
+      "Amnesty POI-1-2-2"
+    ]
+  },
+  "lr_dataset": {
+    "total_locations": 3928,
+    "file_counts_by_type": {
+      ".tiff": 170080,
+      ".metadata": 31424
+    },
+    "acquisitions_stats": {
+      "min": 8,
+      "max": 8,
+      "avg": 8.0
+    },
+    "sample_locations": [
+      "Amnesty POI-1-1-1",
+      "Amnesty POI-1-1-2",
+      "Amnesty POI-1-1-3",
+      "Amnesty POI-1-2-1",
+      "Amnesty POI-1-2-2"
+    ]
+  },
+  "pair_validation": {
+    "matched_count": 3928,
+    "hr_only_count": 1,
+    "lr_only_count": 0,
+    "hr_only_samples": [
+      "testing on one Amnesty POI"
+    ],
+    "lr_only_samples": []
+  },
+  "summary": {
+    "total_usable_pairs": 3928,
+    "total_hr_files": 15716,
+    "total_lr_files": 201504
+  }
+}

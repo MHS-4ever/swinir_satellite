@@ -1,0 +1,143 @@
+{
+  "hr_images": {
+    "pan": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(1054, 1054)"
+      ],
+      "shape_count": 1,
+      "dtypes": [
+        "uint16"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 17090.0,
+        "mean_of_means": 1210.18
+      }
+    },
+    "ps": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(1054, 1054, 4)"
+      ],
+      "shape_count": 1,
+      "dtypes": [
+        "uint16"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 20877.0,
+        "mean_of_means": 1210.18
+      }
+    },
+    "rgbn": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(263, 263, 4)"
+      ],
+      "shape_count": 1,
+      "dtypes": [
+        "uint16"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 13836.0,
+        "mean_of_means": 1594.07
+      }
+    },
+    "rgb": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(1054, 1054, 3)"
+      ],
+      "shape_count": 1
+    }
+  },
+  "lr_images": {
+    "L2A_data": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(157, 159, 12)",
+        "(160, 156, 12)",
+        "(153, 163, 12)",
+        "(159, 158, 12)",
+        "(157, 160, 12)"
+      ],
+      "shape_count": 17,
+      "dtypes": [
+        "float32"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 1.8752000331878662,
+        "mean_of_means": 0.2
+      }
+    },
+    "CLM": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(155, 161)",
+        "(156, 161)",
+        "(160, 157)",
+        "(156, 160)",
+        "(153, 163)"
+      ],
+      "shape_count": 17,
+      "dtypes": [
+        "float32"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "mean_of_means": 0.05
+      }
+    },
+    "CLP": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(155, 161)",
+        "(156, 161)",
+        "(160, 157)",
+        "(156, 160)",
+        "(153, 163)"
+      ],
+      "shape_count": 17,
+      "dtypes": [
+        "float32"
+      ],
+      "value_range": {
+        "min": 0.0,
+        "max": 252.0,
+        "mean_of_means": 24.24
+      }
+    },
+    "dataMask": {
+      "count": 50,
+      "errors": 0,
+      "shapes": [
+        "(155, 161)",
+        "(156, 161)",
+        "(160, 157)",
+        "(156, 160)",
+        "(153, 163)"
+      ],
+      "shape_count": 17,
+      "dtypes": [
+        "float32"
+      ],
+      "value_range": {
+        "min": 1.0,
+        "max": 1.0,
+        "mean_of_means": 1.0
+      }
+    }
+  },
+  "samples_analyzed": 50
+}

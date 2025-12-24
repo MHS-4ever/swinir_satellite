@@ -1,0 +1,19 @@
+{
+  "total_locations": 3928,
+  "split_type": "stratified",
+  "random_seed": 42,
+  "splits": {
+    "train": {
+      "count": 3140,
+      "ratio": 0.8
+    },
+    "val": {
+      "count": 390,
+      "ratio": 0.1
+    },
+    "test": {
+      "count": 398,
+      "ratio": 0.1
+    }
+  }
+}
