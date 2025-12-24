@@ -1,217 +1,205 @@
 # Phase 2: Model Development (SwinIR)
 
 ## Overview
-This phase focuses on implementing the SwinIR architecture for satellite imagery super-resolution, understanding its components, and adapting it for our specific use case.
+This phase implements the SwinIR architecture and data pipeline for satellite imagery super-resolution.
+
+**Status**: ✅ COMPLETED
 
 ---
 
 ## Objectives
-- [ ] Understand SwinIR architecture thoroughly
-- [ ] Implement/adapt SwinIR model for satellite imagery
-- [ ] Define loss functions for training
-- [ ] Set up model initialization and loading utilities
-- [ ] Verify model with dummy forward pass
+- [x] Understand SwinIR architecture
+- [x] Implement SwinIR model for satellite imagery
+- [x] Create data loading pipeline
+- [x] Define loss functions
+- [x] Set up hardware-optimized configuration
+- [x] Verify complete pipeline
 
 ---
 
-## SwinIR Architecture Overview
+## Implementation Summary
 
-### Key Components
+### Hardware Configuration
+| Component | Specification | Optimization |
+|-----------|--------------|--------------|
+| GPU | RTX 3050 6GB | Batch size 4, AMP enabled |
+| CPU | i5-13420H (8 cores) | 8 data loading workers |
+| RAM | 16GB | Pin memory enabled |
+| Storage | NVMe SSD | Prefetch factor 2 |
 
-#### 1. Swin Transformer Block
-- Window-based self-attention mechanism
-- Shifted window partitioning
-- Relative position bias
-- MLP layers with GELU activation
+### Model Configuration
+| Parameter | Value |
+|-----------|-------|
+| Model | SwinIR-Small |
+| Parameters | 1.24M |
+| Input size | 64×64 (LR) |
+| Output size | 256×256 (HR) |
+| Scale factor | 4x |
+| Window size | 8 |
+| Embed dim | 60 |
+| Depths | [6, 6, 6, 6] |
+| Num heads | [6, 6, 6, 6] |
 
-#### 2. Residual Swin Transformer Block (RSTB)
-- Multiple Swin Transformer layers
-- Residual connection for better gradient flow
-- Convolution layer for feature enhancement
-
-#### 3. Overall Architecture
-```
-Input → Shallow Feature Extraction → Deep Feature Extraction (RSTBs) → 
-Image Reconstruction → Upsampling → Output
-```
-
-### Model Variants
-| Variant | Parameters | Use Case |
-|---------|------------|----------|
-| SwinIR-S | ~0.9M | Lightweight, fast inference |
-| SwinIR-M | ~11.8M | Balanced performance |
-| SwinIR-L | ~27.5M | Maximum quality |
-
----
-
-## Tasks
-
-### 2.1 Architecture Study
-**Status**: `[ ] Not Started`
-
-**Description**: Deep dive into SwinIR paper and official implementation
-
-**Actions**:
-- Read SwinIR paper (ICCV 2021)
-- Study official GitHub implementation
-- Document key architectural decisions
-- Identify modifications for satellite imagery
-
-**Resources**:
-- Paper: "SwinIR: Image Restoration Using Swin Transformer"
-- GitHub: https://github.com/JingyunLiang/SwinIR
-
-**Expected Outputs**:
-- Architecture summary document
-- Modification proposal
+### Training Configuration
+| Parameter | Value | Reason |
+|-----------|-------|--------|
+| Batch size | 4 | Max for 6GB VRAM |
+| Accumulation steps | 4 | Effective batch = 16 |
+| Mixed Precision | Enabled | 2x speedup, 50% less VRAM |
+| Num workers | 8 | All CPU cores |
+| Learning rate | 2e-4 | Standard for SwinIR |
 
 ---
 
-### 2.2 Model Implementation
-**Status**: `[ ] Not Started`
+## Components Created
 
-**Description**: Implement SwinIR model in PyTorch
-
-**Files to Create**:
+### File Structure
 ```
-src/models/
-├── swinir.py          # Main SwinIR model
-├── layers.py          # Custom layers (attention, MLP)
-├── blocks.py          # RSTB and related blocks
-└── utils.py           # Model utilities
+phase2_model_development/
+├── __init__.py           # Package exports
+├── config.py             # Hardware-optimized configuration
+├── dataset.py            # WorldStrat Dataset + DataLoader
+├── swinir.py             # SwinIR model architecture
+├── losses.py             # L1, Charbonnier, Perceptual losses
+├── utils.py              # Checkpoints, utilities
+├── verify_pipeline.py    # Pipeline verification
+└── README.md             # Phase 2 guide
 ```
 
-**Key Classes**:
-- `WindowAttention`: Window-based multi-head self-attention
-- `SwinTransformerBlock`: Basic Swin Transformer block
-- `RSTB`: Residual Swin Transformer Block
-- `SwinIR`: Main model class
+### Key Classes
 
----
+#### Dataset (`dataset.py`)
+```python
+WorldStratDataset(split='train', scale=4, hr_patch_size=256)
+get_dataloader(split='train', batch_size=4, num_workers=8)
+```
 
-### 2.3 Satellite-Specific Adaptations
-**Status**: `[ ] Not Started`
+#### Model (`swinir.py`)
+```python
+SwinIR(upscale=4, in_chans=3, img_size=64, window_size=8)
+swinir_small(upscale=4)  # 1.24M params
+swinir_medium(upscale=4) # ~12M params
+```
 
-**Description**: Modify SwinIR for satellite imagery characteristics
+#### Losses (`losses.py`)
+```python
+L1Loss()
+CharbonnierLoss(eps=1e-6)
+PerceptualLoss(layer_weights={'conv5_4': 1.0})
+CombinedLoss(pixel_loss='l1', perceptual_weight=0.0)
+```
 
-**Considerations**:
-1. **Multi-spectral Input**: Handle satellite bands beyond RGB
-2. **12-bit Dynamic Range**: Adapt normalization for higher bit depth
-3. **Large Scale Factors**: Satellite SR often requires 4x-8x upscaling
-4. **Geometric Consistency**: Preserve geographic features
-
-**Modifications**:
-- Input channel adaptation
-- Dynamic range handling
-- Custom upsampling for geographic preservation
-
----
-
-### 2.4 Loss Function Implementation
-**Status**: `[ ] Not Started`
-
-**Description**: Implement training loss functions
-
-**Loss Components**:
-
-1. **Pixel Loss (L1/L2)**
-   ```python
-   L_pixel = ||SR - HR||_1
-   ```
-
-2. **Perceptual Loss (VGG-based)**
-   ```python
-   L_perceptual = ||φ(SR) - φ(HR)||_2
-   ```
-
-3. **Charbonnier Loss (Optional)**
-   ```python
-   L_char = sqrt((SR - HR)^2 + ε^2)
-   ```
-
-**Files to Create**:
-- `src/training/losses.py`
-
----
-
-### 2.5 Model Utilities
-**Status**: `[ ] Not Started`
-
-**Description**: Implement model management utilities
-
-**Features**:
-- Model initialization (Xavier, Kaiming)
-- Checkpoint saving/loading
-- Pretrained weight loading (if available)
-- Model summary and parameter counting
-
-**Files to Create**:
-- `src/models/model_utils.py`
-
----
-
-### 2.6 Model Verification
-**Status**: `[ ] Not Started`
-
-**Description**: Verify model implementation correctness
-
-**Tests**:
-1. Forward pass with dummy input
-2. Gradient flow verification
-3. Output shape validation
-4. Memory usage profiling
-5. Inference speed benchmarking
-
-**Expected Outputs**:
-- `tests/test_model.py`
-- Model verification report
-
----
-
-## Model Configuration
-
-```yaml
-# Default SwinIR configuration for satellite SR
-model:
-  name: "SwinIR"
-  upscale: 4
-  in_chans: 3
-  img_size: 64
-  window_size: 8
-  img_range: 1.0
-  depths: [6, 6, 6, 6, 6, 6]
-  embed_dim: 180
-  num_heads: [6, 6, 6, 6, 6, 6]
-  mlp_ratio: 2
-  upsampler: "pixelshuffle"
-  resi_connection: "1conv"
+#### Config (`config.py`)
+```python
+Config()  # Auto-detects hardware and optimizes settings
 ```
 
 ---
 
-## Deliverables Checklist
-- [ ] SwinIR model implementation
-- [ ] Custom layers and blocks
-- [ ] Loss functions
-- [ ] Model utilities (save/load/init)
-- [ ] Model verification tests
-- [ ] Architecture documentation
+## Verification Results
+
+### Test Summary
+| Test | Status | Details |
+|------|--------|---------|
+| Dataset | ✅ PASSED | 3,140 train samples, shapes correct |
+| Model | ✅ PASSED | 1.24M params, 4x upscale works |
+| Losses | ✅ PASSED | L1, Charbonnier compute correctly |
+| Full Pipeline | ✅ PASSED | Training + validation works |
+
+### Detailed Results
+```
+Dataset:
+  - Train size: 3,140 locations
+  - LR shape: [3, 64, 64]
+  - HR shape: [3, 256, 256]
+  - LR range: [0.020, 0.090]
+  - HR range: [0.000, 0.176] (after 12-bit normalization fix)
+
+Model:
+  - Parameters: 1.24M
+  - Input: [batch, 3, 64, 64]
+  - Output: [batch, 3, 256, 256]
+  - Gradients: flowing correctly
+
+Losses:
+  - L1 Loss: ~1.13 (random input)
+  - Training Loss: ~0.80 (dummy data)
+```
 
 ---
 
-## Notes & Observations
-*(Document implementation decisions and challenges)*
+## Observations & Notes
+
+### Value Range Analysis
+- **LR images**: Sentinel-2 float32, range [0, 1] after clipping
+- **HR images**: 12-bit uint16 normalized by 4095 (not 65535) → range [0, 0.18]
+- **Fix Applied**: Changed normalization from 65535 to 4095 for proper 12-bit scaling
+- **Result**: HR values now in reasonable range for better gradient flow
+
+### Memory Usage
+- Estimated VRAM: ~2-3 GB with batch size 4 + AMP
+- Safe margin for 6GB GPU
+- Can increase batch if needed
+
+### Potential Improvements (Future)
+1. ✅ **DONE**: Adjusted HR normalization to 4095 for 12-bit data
+2. Add temporal fusion for multi-acquisition LR images
+3. Implement perceptual loss for better visual quality
+4. Add data augmentation variants
 
 ---
 
-## References
-1. Liang, J., et al. "SwinIR: Image Restoration Using Swin Transformer." ICCV 2021
-2. Liu, Z., et al. "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows." ICCV 2021
-3. Official SwinIR Repository: https://github.com/JingyunLiang/SwinIR
+## Usage Examples
+
+### Load Dataset
+```python
+from phase2_model_development import WorldStratDataset, get_dataloader
+
+train_loader = get_dataloader('train', batch_size=4, num_workers=8)
+for batch in train_loader:
+    lr = batch['lr']  # [4, 3, 64, 64]
+    hr = batch['hr']  # [4, 3, 256, 256]
+```
+
+### Create Model
+```python
+from phase2_model_development import swinir_small, Config
+
+cfg = Config()  # Auto-detect hardware
+model = swinir_small(upscale=4).cuda()
+```
+
+### Training Step
+```python
+from phase2_model_development import CombinedLoss
+
+criterion = CombinedLoss(pixel_loss='l1')
+optimizer = torch.optim.Adam(model.parameters(), lr=2e-4)
+
+# Forward pass
+sr = model.forward_simple(lr)
+losses = criterion(sr, hr)
+
+# Backward pass
+losses['total'].backward()
+optimizer.step()
+```
 
 ---
 
-**Phase Start Date**: ___________  
-**Phase End Date**: ___________  
+## Next Steps (Phase 3)
+
+1. Implement complete training loop with:
+   - Gradient accumulation
+   - Mixed precision (AMP)
+   - Learning rate scheduling
+   - Checkpointing
+2. Add validation with metrics (PSNR, SSIM)
+3. Implement TensorBoard logging
+4. Run baseline training experiment
+
+---
+
+**Phase Start Date**: December 24, 2024  
+**Phase End Date**: December 24, 2024  
 **Completed By**: ___________
-

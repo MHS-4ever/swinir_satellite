@@ -31,7 +31,7 @@ ml_project/
 | Phase | Folder | Description | Status |
 |-------|--------|-------------|--------|
 | 1 | `phase1_data_exploration/` | Dataset analysis, preprocessing | ✅ Completed |
-| 2 | `phase2_model_development/` | SwinIR implementation | `[ ] Not Started` |
+| 2 | `phase2_model_development/` | SwinIR implementation | ✅ Completed |
 | 3 | `phase3_training/` | Training pipeline, experiments | `[ ] Not Started` |
 | 4 | `phase4_evaluation/` | Metrics, comparisons | `[ ] Not Started` |
 | 5 | `phase5_final_product/` | Packaging, handoff | `[ ] Not Started` |

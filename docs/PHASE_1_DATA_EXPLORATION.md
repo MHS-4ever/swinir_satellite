@@ -12,7 +12,6 @@ This phase focuses on understanding the WorldStrat dataset structure, exploring 
 - [x] Analyze image properties (resolution, bit depth, spectral bands)
 - [x] Identify data quality issues and anomalies
 - [x] Create train/validation/test splits
-- [ ] Design and implement preprocessing pipeline (Phase 2)
 
 ---
 
