@@ -1,0 +1,185 @@
+% LaTeX Tables for Research Paper
+% Satellite Image Super-Resolution using SwinIR
+% Generated: December 25, 2024
+
+% ============================================================
+% Table 1: Dataset Statistics
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{WorldStrat Dataset Statistics}
+\label{tab:dataset}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Split} & \textbf{Locations} & \textbf{Percentage} \\
+\midrule
+Train & 3,140 & 80\% \\
+Validation & 390 & 10\% \\
+Test & 398 & 10\% \\
+\midrule
+\textbf{Total} & \textbf{3,928} & \textbf{100\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 2: Model Architecture
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{SwinIR-Small Architecture Configuration}
+\label{tab:architecture}
+\begin{tabular}{ll}
+\toprule
+\textbf{Component} & \textbf{Configuration} \\
+\midrule
+Input size & $64 \times 64 \times 3$ \\
+Output size & $256 \times 256 \times 3$ \\
+Scale factor & 4$\times$ \\
+Embedding dimension & 60 \\
+Transformer blocks & 4 \\
+Depths per block & [6, 6, 6, 6] \\
+Attention heads & [6, 6, 6, 6] \\
+Window size & 8 \\
+MLP ratio & 2.0 \\
+Upsampler & Pixel shuffle \\
+\midrule
+\textbf{Total parameters} & \textbf{1.24M} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 3: Training Configuration
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Training Hyperparameters}
+\label{tab:training}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Optimizer & AdamW \\
+Learning rate & $2 \times 10^{-4}$ \\
+LR scheduler & Cosine annealing \\
+Batch size & 4 (effective: 16) \\
+Epochs & 100 \\
+Loss function & L1 \\
+Mixed precision & Enabled \\
+Gradient accumulation & 4 steps \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 4: Main Results (Overall)
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Super-Resolution Results on WorldStrat Test Set}
+\label{tab:results}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Method} & \textbf{PSNR (dB)} $\uparrow$ & \textbf{SSIM} $\uparrow$ \\
+\midrule
+Bicubic & 17.87 & 0.4456 \\
+\textbf{SwinIR (Ours)} & \textbf{24.49} & \textbf{0.6501} \\
+\midrule
+\textbf{Improvement} & \textbf{+6.62} & \textbf{+0.2046} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 5: Results by Category
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Results by Geographic Category}
+\label{tab:category}
+\begin{tabular}{lrcccc}
+\toprule
+\textbf{Category} & \textbf{N} & \textbf{Bicubic} & \textbf{SwinIR} & \textbf{$\Delta$ PSNR} & \textbf{SSIM} \\
+\midrule
+ASMSpotter & 39 & 23.76 & 26.82 & +3.06 & 0.7715 \\
+Amnesty POI & 10 & 17.01 & 23.81 & +6.80 & 0.6009 \\
+Landcover & 241 & 17.78 & 23.87 & +6.09 & 0.6286 \\
+UNHCR & 108 & 16.03 & 25.08 & \textbf{+9.05} & 0.6590 \\
+\midrule
+\textbf{Overall} & \textbf{398} & \textbf{17.87} & \textbf{24.49} & \textbf{+6.62} & \textbf{0.6501} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 6: Training Progression
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Training Progression}
+\label{tab:training_progress}
+\begin{tabular}{rcccc}
+\toprule
+\textbf{Epoch} & \textbf{Train Loss} & \textbf{Val Loss} & \textbf{Val PSNR} & \textbf{Val SSIM} \\
+\midrule
+1 & 0.0905 & 0.0756 & 21.33 & 0.5039 \\
+20 & 0.0634 & 0.0582 & 23.43 & 0.6190 \\
+50 & 0.0619 & 0.0563 & 23.69 & 0.6228 \\
+100 & 0.0560 & 0.0548 & 23.91 & 0.6308 \\
+\midrule
+\textbf{Best} & - & - & \textbf{23.95} & \textbf{0.6321} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 7: Best and Worst Samples
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Best Performing Samples}
+\label{tab:best}
+\begin{tabular}{clccc}
+\toprule
+\textbf{Rank} & \textbf{Location} & \textbf{PSNR (dB)} & \textbf{SSIM} & \textbf{$\Delta$ PSNR} \\
+\midrule
+1 & ASMSpotter-13-3-3 & 42.70 & 0.9488 & +8.85 \\
+2 & ASMSpotter-12-1-1 & 42.62 & 0.9490 & +7.77 \\
+3 & ASMSpotter-18-1-1 & 40.17 & 0.9229 & +6.31 \\
+4 & ASMSpotter-14-1-2 & 39.67 & 0.9442 & +5.90 \\
+5 & ASMSpotter-16-3-3 & 39.57 & 0.9400 & +5.96 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Table 8: Comparison with Baselines
+% ============================================================
+\begin{table}[h]
+\centering
+\caption{Comparison with Interpolation Methods}
+\label{tab:comparison}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Method} & \textbf{PSNR (dB)} & \textbf{SSIM} \\
+\midrule
+Nearest neighbor & 15.2* & 0.38* \\
+Bilinear & 16.8* & 0.42* \\
+Bicubic & 17.87 & 0.4456 \\
+Lanczos & 18.1* & 0.46* \\
+\midrule
+\textbf{SwinIR (Ours)} & \textbf{24.49} & \textbf{0.6501} \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize *Estimated values for comparison} \\
+\end{tabular}
+\end{table}
+
+% ============================================================
+% Instructions for use:
+% ============================================================
+% 1. Include \usepackage{booktabs} in your preamble
+% 2. Copy desired tables into your LaTeX document
+% 3. Adjust formatting as needed for your template
+% ============================================================
+

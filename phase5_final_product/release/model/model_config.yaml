@@ -1,0 +1,32 @@
+# SwinIR Satellite Super-Resolution Model Configuration
+
+model:
+  name: SwinIR-Small
+  type: super_resolution
+  scale: 4
+  
+architecture:
+  img_size: 64
+  window_size: 8
+  embed_dim: 60
+  depths: [6, 6, 6, 6]
+  num_heads: [6, 6, 6, 6]
+  mlp_ratio: 2.0
+  upsampler: pixelshuffle
+
+input:
+  channels: 3
+  size: [64, 64]
+  format: RGB
+  range: [0.0, 1.0]
+
+output:
+  channels: 3
+  size: [256, 256]
+  format: RGB
+  range: [0.0, 1.0]
+
+inference:
+  batch_size: 1
+  device: cuda  # or cpu
+  precision: float32  # or float16 for faster inference
