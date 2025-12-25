@@ -32,7 +32,7 @@ ml_project/
 |-------|--------|-------------|--------|
 | 1 | `phase1_data_exploration/` | Dataset analysis, preprocessing | ✅ Completed |
 | 2 | `phase2_model_development/` | SwinIR implementation | ✅ Completed |
-| 3 | `phase3_training/` | Training pipeline, experiments | `[ ] Not Started` |
+| 3 | `phase3_training/` | Training pipeline, 100 epochs | ✅ Completed (PSNR: 23.95 dB) |
 | 4 | `phase4_evaluation/` | Metrics, comparisons | `[ ] Not Started` |
 | 5 | `phase5_final_product/` | Packaging, handoff | `[ ] Not Started` |
 
