@@ -371,11 +371,11 @@ class SwinIR(nn.Module):
         x = (x - self.mean) * self.img_range
 
         # Shallow feature extraction
-        x = self.conv_first(x)
-        x_size = (x.shape[2], x.shape[3])
+        shallow_feat = self.conv_first(x)
+        x_size = (shallow_feat.shape[2], shallow_feat.shape[3])
         
         # Reshape for transformer
-        x = x.flatten(2).transpose(1, 2)
+        x = shallow_feat.flatten(2).transpose(1, 2)
 
         # Deep feature extraction
         for layer in self.layers:
@@ -383,13 +383,9 @@ class SwinIR(nn.Module):
 
         x = self.norm(x)
         x = x.transpose(1, 2).view(-1, x.shape[2], x_size[0], x_size[1])
-        x = self.conv_after_body(x) + self.conv_first(
-            self.check_image_size((x.new_zeros(x.shape[0], 3, H, W) + self.mean) / self.img_range + 
-            F.pad(torch.zeros(1), (0, 0)))  # Dummy to get residual
-        )[:, :, :x_size[0], :x_size[1]]  # This is a hack, let's simplify
-
-        # Actually, proper residual:
-        # x = self.conv_after_body(x) + shallow_feat
+        
+        # Residual connection with shallow features
+        x = self.conv_after_body(x) + shallow_feat
 
         # Upsampling
         if self.upsampler == 'pixelshuffle':
