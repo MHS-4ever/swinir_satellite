@@ -195,7 +195,9 @@ The model is ready for **Phase 4: Evaluation** on the held-out test set.
 
 ---
 
-**Training Completed**: December 25, 2024  
+**Phase Start Date**: December 13, 2025  
+**Phase End Date**: December 20, 2025  
+**Training Completed**: December 20, 2025  
 **Total Epochs**: 100  
 **Best Epoch**: 97 (PSNR: 23.95 dB)  
 **Status**: Ready for Evaluation ✅

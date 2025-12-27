@@ -142,6 +142,7 @@ pip install numpy pandas matplotlib pillow tifffile tqdm pyyaml tensorboard grad
 
 ---
 
-**Project Completed**: December 25, 2024  
+**Project Timeline**: December 3, 2025 - December 29, 2025 (27 days)  
+**Project Completed**: December 29, 2025  
 **Course**: Machine Learning  
 **Team**: Experimental Implementation

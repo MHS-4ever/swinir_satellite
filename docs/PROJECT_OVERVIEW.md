@@ -4,6 +4,8 @@
 - **Title**: Resolution Enhancement of Satellite Imagery using SwinIR
 - **Type**: ML Course Experimental Project
 - **Dataset**: WorldStrat (Kaggle)
+- **Project Duration**: December 3, 2025 - December 29, 2025 (27 days)
+- **Planned Timeline**: December 1, 2025 - December 31, 2025 (1 month)
 
 ---
 
@@ -26,15 +28,29 @@ ml_project/
 
 ---
 
+## Project Timeline
+
+| Phase | Duration | Start Date | End Date | Status |
+|-------|----------|------------|----------|--------|
+| **Project Start** | - | December 3, 2025 | - | ✅ |
+| 1. Data Exploration | 5 days | December 3, 2025 | December 7, 2025 | ✅ Completed |
+| 2. Model Development | 5 days | December 8, 2025 | December 12, 2025 | ✅ Completed |
+| 3. Training | 8 days | December 13, 2025 | December 20, 2025 | ✅ Completed (PSNR: 23.95 dB) |
+| 4. Evaluation | 5 days | December 21, 2025 | December 25, 2025 | ✅ Completed (Test PSNR: 24.49 dB) |
+| 5. Final Product | 4 days | December 26, 2025 | December 29, 2025 | ✅ Completed |
+| **Project End** | - | - | December 29, 2025 | ✅ |
+
+---
+
 ## Project Phases
 
-| Phase | Folder | Description | Status |
-|-------|--------|-------------|--------|
-| 1 | `phase1_data_exploration/` | Dataset analysis, preprocessing | ✅ Completed |
-| 2 | `phase2_model_development/` | SwinIR implementation | ✅ Completed |
-| 3 | `phase3_training/` | Training pipeline, 100 epochs | ✅ Completed (PSNR: 23.95 dB) |
-| 4 | `phase4_evaluation/` | Metrics, comparisons | ✅ Completed (Test PSNR: 24.49 dB) |
-| 5 | `phase5_final_product/` | Packaging, handoff | ✅ Completed |
+| Phase | Folder | Description | Timeline | Status |
+|-------|--------|-------------|----------|--------|
+| 1 | `phase1_data_exploration/` | Dataset analysis, preprocessing | Dec 3-7, 2025 | ✅ Completed |
+| 2 | `phase2_model_development/` | SwinIR implementation | Dec 8-12, 2025 | ✅ Completed |
+| 3 | `phase3_training/` | Training pipeline, 100 epochs | Dec 13-20, 2025 | ✅ Completed (PSNR: 23.95 dB) |
+| 4 | `phase4_evaluation/` | Metrics, comparisons | Dec 21-25, 2025 | ✅ Completed (Test PSNR: 24.49 dB) |
+| 5 | `phase5_final_product/` | Packaging, handoff | Dec 26-29, 2025 | ✅ Completed |
 
 ---
 

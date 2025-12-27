@@ -271,7 +271,8 @@ python phase5_final_product/demo.py
 
 ---
 
-**Report Date**: December 25, 2024  
+**Report Date**: December 29, 2025  
+**Project Timeline**: December 3, 2025 - December 29, 2025  
 **Authors**: ML Course Project Team  
 **Version**: 1.0
 

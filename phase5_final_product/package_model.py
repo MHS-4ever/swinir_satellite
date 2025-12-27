@@ -107,7 +107,7 @@ def package_model(
         "test_ssim": "0.6501",
         "psnr_improvement_over_bicubic": "+6.62 dB",
         "ssim_improvement_over_bicubic": "+0.2046",
-        "training_date": "2024-12-25",
+        "training_date": "2025-12-20",
         "checkpoint_file": f"{model_name}.pth",
         "framework": "PyTorch 2.0+",
         "cuda_support": True,
