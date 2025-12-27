@@ -212,9 +212,59 @@ def main():
     
     # Load input image
     input_path = Path(args.input)
+    
+    # Try to resolve the path
     if not input_path.exists():
-        print(f"Error: Input image not found: {input_path}")
-        sys.exit(1)
+        # Check if it's a relative path - try current directory
+        if not input_path.is_absolute():
+            abs_path = Path.cwd() / input_path
+            if abs_path.exists():
+                input_path = abs_path
+            else:
+                # File not found - provide helpful error message
+                print(f"Error: Input image not found: {args.input}")
+                print(f"\nTried paths:")
+                print(f"  - {input_path.absolute()}")
+                print(f"  - {abs_path.absolute()}")
+                
+                # Look for sample images in common locations
+                sample_dirs = [
+                    PROJECT_ROOT / "phase1_data_exploration" / "outputs" / "visualizations",
+                    PROJECT_ROOT / "phase4_evaluation" / "outputs" / "comparison_images",
+                    PROJECT_ROOT / "phase5_final_product" / "release" / "examples",
+                    PROJECT_ROOT / "phase4_evaluation" / "outputs" / "figures",
+                    Path.cwd(),
+                ]
+                
+                print("\nLooking for sample images in common locations...")
+                found_samples = []
+                for sample_dir in sample_dirs:
+                    if sample_dir.exists():
+                        for ext in ['.png', '.jpg', '.jpeg', '.tiff', '.tif']:
+                            samples = list(sample_dir.glob(f'*{ext}'))
+                            if samples:
+                                found_samples.extend(samples[:3])  # Show first 3 per directory
+                                break  # One extension type per directory is enough
+                
+                if found_samples:
+                    print(f"\nFound {len(found_samples)} sample image(s) you could use:")
+                    for i, sample in enumerate(found_samples[:5], 1):  # Show up to 5
+                        try:
+                            rel_path = sample.relative_to(Path.cwd())
+                        except ValueError:
+                            rel_path = sample
+                        print(f"  {i}. {rel_path}")
+                    print(f"\nExample usage:")
+                    try:
+                        example_path = found_samples[0].relative_to(Path.cwd())
+                    except ValueError:
+                        example_path = found_samples[0]
+                    print(f"  python phase5_final_product/inference.py --input {example_path} --output output.png")
+                else:
+                    print("\nNo sample images found in common locations.")
+                    print("Please provide a valid image path (PNG, JPG, TIFF formats supported).")
+                
+                sys.exit(1)
     
     print(f"Loading image: {input_path}")
     image = load_image(str(input_path))

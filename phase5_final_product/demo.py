@@ -13,10 +13,21 @@ Requirements:
 """
 
 import sys
+import os
 from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image
+
+# Fix Windows asyncio issues
+if sys.platform == 'win32':
+    import warnings
+    import logging
+    # Suppress asyncio warnings on Windows
+    warnings.filterwarnings('ignore', category=RuntimeWarning, message='.*proactor.*')
+    warnings.filterwarnings('ignore', category=RuntimeWarning, message='.*connection.*')
+    # Suppress connection reset errors in logs
+    logging.getLogger('asyncio').setLevel(logging.ERROR)
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -192,11 +203,30 @@ class SwinIRDemo:
             """)
         
         print(f"\nLaunching demo at http://localhost:{port}")
-        demo.launch(share=share, server_port=port)
+        print("Note: If you see a connection reset error when closing, it's a harmless Windows cleanup issue.\n")
+        
+        try:
+            demo.launch(share=share, server_port=port, show_error=True)
+        except KeyboardInterrupt:
+            print("\n\nDemo stopped by user. Shutting down...")
+        except Exception as e:
+            # Suppress Windows connection reset errors during cleanup
+            if sys.platform == 'win32':
+                if isinstance(e, ConnectionResetError):
+                    # Connection reset during cleanup - harmless on Windows
+                    print("\nDemo closed successfully.")
+                    return
+                elif isinstance(e, OSError) and hasattr(e, 'winerror') and e.winerror == 10054:
+                    print("\nDemo closed successfully.")
+                    return
+            # Re-raise other errors
+            raise
 
 
 def main():
     import argparse
+    import signal
+    
     parser = argparse.ArgumentParser(description='SwinIR Demo')
     parser.add_argument('--checkpoint', '-c', type=str, default=None,
                        help='Model checkpoint path')
@@ -206,8 +236,27 @@ def main():
                        help='Create public link')
     args = parser.parse_args()
     
-    demo = SwinIRDemo(checkpoint_path=args.checkpoint)
-    demo.launch_gradio(share=args.share, port=args.port)
+    # Handle graceful shutdown
+    def signal_handler(sig, frame):
+        print('\n\nShutting down demo...')
+        sys.exit(0)
+    
+    signal.signal(signal.SIGINT, signal_handler)
+    if sys.platform != 'win32':
+        signal.signal(signal.SIGTERM, signal_handler)
+    
+    try:
+        demo = SwinIRDemo(checkpoint_path=args.checkpoint)
+        demo.launch_gradio(share=args.share, port=args.port)
+    except KeyboardInterrupt:
+        print('\n\nDemo stopped by user.')
+    except Exception as e:
+        if sys.platform == 'win32' and isinstance(e, ConnectionResetError):
+            # Windows connection reset during cleanup - safe to ignore
+            pass
+        else:
+            print(f"\nError: {e}")
+            raise
 
 
 if __name__ == '__main__':
