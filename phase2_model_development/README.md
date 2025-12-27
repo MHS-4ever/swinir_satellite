@@ -106,9 +106,4 @@ Upsampling (PixelShuffle 4×)
 Output (256×256×3)
 ```
 
----
-
-## Notes
-
-*(Add implementation notes here)*
 

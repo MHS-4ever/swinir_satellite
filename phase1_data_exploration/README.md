@@ -109,9 +109,4 @@ After running all scripts:
 - Land cover class distribution
 - Train/val/test split files
 
----
-
-## Notes
-
-*(Add observations during exploration)*
 
